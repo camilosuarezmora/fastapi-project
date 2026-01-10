@@ -49,5 +49,19 @@ async def root():
     return {
         "mensaje":"Haz accedido al root de la API, bienvenido!",
         "razon de ser":"Es una buena practica definir un root en una API y que este devuelva algo útil",
-        "estado":"Si puedes ver toda esta información, es porque la API está corriendo correctamente"
+        "estado":"Si puedes ver toda esta información, es porque la API está corriendo correctamente",
+        "hotel?":"trivago"
         }
+    
+    
+    
+    
+#Definición de otro path operation decorator y función de ejemplo
+"""
+En el siguiente ejemplo se define otro path operation decorator y función que responde a requests GET en el path /saludo/{nombre}.
+El path incluye un parámetro de path llamado nombre, que es una variable que el cliente puede definir al hacer la solicitud.
+Por ejemplo, si el cliente hace una solicitud GET a /saludo/Ana, el valor del parámetro nombre será "Ana".
+"""    
+@app.get("/saludo/{nombre}")
+async def saludar_nombre(nombre: str):
+    return {"mensaje":f"Hola, {nombre}. ¡Bienvenido a nuestra API!"}
