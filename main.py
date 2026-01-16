@@ -22,6 +22,13 @@ El condigo a continuación importa el modulo (python lo lee como clase) FastAPI 
 from fastapi import FastAPI
 
 
+#Importa pydantic para crear un objeto de datos
+"""
+El codigo de abajo importa la librería pydantic y su modulo BaseModel, que se utiliza para definir modelos de datos con validación automática en FastAPI.
+"""
+from pydantic import BaseModel
+
+
 #Creación de la aplicación FastAPI
 """
 cuando se importa FastAPI, python la lee como una clase que debe ser instanciada. 
@@ -65,3 +72,79 @@ Por ejemplo, si el cliente hace una solicitud GET a /saludo/Ana, el valor del pa
 @app.get("/saludo/{nombre}")
 async def saludar_nombre(nombre: str):
     return {"mensaje":f"Hola, {nombre}. ¡Bienvenido a nuestra API!"}
+
+
+"""
+$$$$$$$$\                                       $$\                 $$\   $$\                                         $$\                     
+$$  _____|                                      $$ |                $$ |  $$ |                                        \__|                    
+$$ |      $$\  $$$$$$\  $$$$$$\$$$$\   $$$$$$\  $$ | $$$$$$\        $$ |  $$ | $$$$$$$\ $$\   $$\  $$$$$$\   $$$$$$\  $$\  $$$$$$\   $$$$$$$\ 
+$$$$$\    \__|$$  __$$\ $$  _$$  _$$\ $$  __$$\ $$ |$$  __$$\       $$ |  $$ |$$  _____|$$ |  $$ | \____$$\ $$  __$$\ $$ |$$  __$$\ $$  _____|
+$$  __|   $$\ $$$$$$$$ |$$ / $$ / $$ |$$ /  $$ |$$ |$$ /  $$ |      $$ |  $$ |\$$$$$$\  $$ |  $$ | $$$$$$$ |$$ |  \__|$$ |$$ /  $$ |\$$$$$$\  
+$$ |      $$ |$$   ____|$$ | $$ | $$ |$$ |  $$ |$$ |$$ |  $$ |      $$ |  $$ | \____$$\ $$ |  $$ |$$  __$$ |$$ |      $$ |$$ |  $$ | \____$$\ 
+$$$$$$$$\ $$ |\$$$$$$$\ $$ | $$ | $$ |$$$$$$$  |$$ |\$$$$$$  |      \$$$$$$  |$$$$$$$  |\$$$$$$  |\$$$$$$$ |$$ |      $$ |\$$$$$$  |$$$$$$$  |
+\________|$$ | \_______|\__| \__| \__|$$  ____/ \__| \______/        \______/ \_______/  \______/  \_______|\__|      \__| \______/ \_______/ 
+    $$\   $$ |                        $$ |                                                                                                    
+    \$$$$$$  |                        $$ |                                                                                                    
+     \______/                         \__|                                                                                                    
+"""
+
+"""
+Crea el objeto de datos 
+"""
+class User(BaseModel):
+        id: int
+        nombre: str
+        apellido: str
+        telefono: int
+        direccion: str
+        correo: str
+
+
+"""
+Crea una lista para almacenar cada objeto de la clase User       
+"""
+users_list = [
+        User(
+                id = 1,
+                nombre = "camilo", 
+                apellido = "suarez", 
+                telefono = 3188477656, 
+                direccion="Cra 30 # 14 - 08", 
+                correo="kamsz.m0@gmail.com"
+        ),
+        User(
+                id = 2,
+                nombre = "laura", 
+                apellido = "mora", 
+                telefono = 3171375428, 
+                direccion="Algún lugar de lebrija", 
+                correo="valenmora@gmail.com"
+        ),
+        User(
+                id = 3,
+                nombre = "jhoan", 
+                apellido = "mora", 
+                telefono = 3178499515, 
+                direccion="Cra 30 # 14 - 09", 
+                correo="camilosuarezm2007@gmail.com"
+                )
+]
+
+"""
+Se crea el path operator decorator para mostrar los usuarios que están almacenados en la lista llamda <<users_list>>
+"""
+@app.get("/users/")
+async def users():
+        return users_list
+
+
+#Se crea el path operator decorator para mostrar un usuario por su id
+@app.get("/users/{id}")
+async def usersById(id: int):
+        for usuarios in users_list:
+                if usuarios.id == id:
+                        return usuarios 
+                
+                
+                
+        
