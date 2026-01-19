@@ -26,7 +26,7 @@ from fastapi import FastAPI
 """
 El codigo de abajo importa la librería pydantic y su modulo BaseModel, que se utiliza para definir modelos de datos con validación automática en FastAPI.
 """
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 #Creación de la aplicación FastAPI
@@ -89,7 +89,7 @@ $$$$$$$$\ $$ |\$$$$$$$\ $$ | $$ | $$ |$$$$$$$  |$$ |\$$$$$$  |      \$$$$$$  |$$
 """
 
 """
-Crea el objeto de datos 
+Crea el objeto de datos con sus respectivos tipos usando pydantic BaseModel
 """
 class User(BaseModel):
         id: int
@@ -97,7 +97,7 @@ class User(BaseModel):
         apellido: str
         telefono: int
         direccion: str
-        correo: str
+        correo: EmailStr #tipo especifico de pydantic para validar correos electrónicos
 
 
 """
@@ -131,7 +131,7 @@ users_list = [
 ]
 
 """
-Se crea el path operator decorator para mostrar los usuarios que están almacenados en la lista llamda <<users_list>>
+Se crea el path operator decorator para mostrar TODOS los usuarios que están almacenados en la lista llamda <<users_list>>
 """
 @app.get("/users/")
 async def users():
@@ -139,12 +139,17 @@ async def users():
 
 
 #Se crea el path operator decorator para mostrar un usuario por su id
+"""
+El <<Parametro de path>> en este caso es <<id>>, que entra por la url y se usa en la función para buscar el usuario correspondiente en la lista <<users_list>>.
+
+En este caso, el parámetro de path <<id>> es de tipo entero (int). y lo sabemos porque se uso la typehint <<id: int>> en la definición de la función <<usersById>>.
+"""
 @app.get("/users/{id}")
 async def usersById(id: int):
+        #bucle para buscar el usuario por su id
         for usuarios in users_list:
                 if usuarios.id == id:
-                        return usuarios 
+                        return usuarios
                 
-                
-                
-        
+        #return por fuera de la condicional para que se ejecute si no se encuentra el id        
+        return {"error":"No se encontró un usuario con ese id"}
