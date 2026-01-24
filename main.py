@@ -153,3 +153,27 @@ async def usersById(id: int):
                 
         #return por fuera de la condicional para que se ejecute si no se encuentra el id        
         return {"error":"No se encontró un usuario con ese id"}
+
+
+
+
+#Ejemplo de uso de Enum en path parameters para limitar las opciones posibles
+"""
+El siguiente ejemplo muestra cómo usar la clase Enum para definir un conjunto limitado de opciones para un parámetro de path.
+"""
+from enum import Enum
+
+class ModelName(str, Enum):
+    alexnet = "alexnet"
+    resnet = "resnet"
+    lenet = "lenet"
+
+@app.get("/models/{model_name}")
+async def get_model(model_name: ModelName):
+    if model_name is ModelName.alexnet:
+        return {"model_name": model_name, "message": "Deep Learning FTW!"}
+
+    if model_name.value == "lenet":
+        return {"model_name": model_name, "message": "LeCNN all the images"}
+
+    return {"model_name": model_name, "message": "Have some residuals"}
