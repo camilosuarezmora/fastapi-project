@@ -177,3 +177,8 @@ async def get_model(model_name: ModelName):
         return {"model_name": model_name, "message": "LeCNN all the images"}
 
     return {"model_name": model_name, "message": "Have some residuals"}
+
+@app.get("/modelos/{model_name}")
+async def get_model(model_name: str):
+    if model_name == "camilomodelo":
+        return {"model_name": model_name, "message": "Este es el modelo de camilo"}
